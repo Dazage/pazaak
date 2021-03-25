@@ -3,13 +3,16 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles.css">
     <title>Kazaak verkefni</title>
 </head>
 <body>
     <div id="humanCount"></div>
-    <button type="button" onclick="dealCard(0)">Human draw</button>
+    <button id="hmnDrawBtn" onclick="dealCard(0)">Human draw</button>
+    <button id="hmnStandBtn" onclick="stand(0)">Stand</button>
     <div id="cpuCount"></div>
-    <button type="button" onclick="dealCard(1)">CPU draw</button>
+    <button id="cpuDrawBtn" onclick="dealCard(1)">CPU draw</button>
+    <button id="cpuStandBtn" onclick="stand(1)">Stand</button>
     <script type="text/javascript" src="./main.js"></script>
 </body>
 </html>
