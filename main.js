@@ -44,12 +44,12 @@ function dealCard(player)
             hmnScore += d.drawFromDeck();
             hmnElement.innerHTML = hmnScore;
 
-            console.log(hmnScore)
+            console.log(hmnScore);
             if(hmnScore > 20){
                 hmnElement.innerHTML += "- The oppression of the sith will never return; you have lost!";
                 stand(0);
             }
-            break
+            break;
         case 1: // when cpu
             cpuScore += d.drawFromDeck();
             cpuElement.innerHTML = cpuScore;
@@ -59,11 +59,10 @@ function dealCard(player)
                 cpuElement.innerHTML += "- So this is how liberty dies…with thunderous applause; you have lost!"; // vissi ekki hvaða texti mundi hennta svo setti þetta bara
                 stand(1);
             }
-            break
+            break;
     }
 
 }
-
 
 
 function stand(player){
@@ -79,16 +78,25 @@ function stand(player){
             cpuStandBtn.disabled = true;
             break;
     }
+    winConditionCheck();
+
+}
+
+function winConditionCheck(){
     if((hmnStanding && cpuStanding) && (hmnScore <= 20 && cpuScore <= 20)){
         if(hmnScore > cpuScore){
             alert("Human wins !");
         }else{
             alert("CPU wins !");
         }
+    }else if((hmnStanding && cpuStanding) && (hmnScore > 20 || cpuScore > 20)){
+        if(hmnScore > 20){
+            alert("CPU wins !");
+        }else{
+            alert("Human wins !");
+        }
     }
 }
-
-
 
 
 
