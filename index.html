@@ -7,12 +7,18 @@
     <title>Pazaak verkefni</title>
 </head>
 <body>
-    <div id="humanCount"></div>
-    <button id="hmnDrawBtn" onclick="dealCard(0)">Human draw</button>
-    <button id="hmnStandBtn" onclick="stand(0)">Stand</button>
-    <div id="cpuCount"></div>
-    <button id="cpuDrawBtn" onclick="dealCard(1)">CPU draw</button>
-    <button id="cpuStandBtn" onclick="stand(1)">Stand</button>
+    <div class="game-area">
+        <div class="human">
+            <div id="humanCount"></div>
+            <button id="hmnDrawBtn" onclick="dealCard(0)">Human draw</button>
+            <button id="hmnStandBtn" onclick="stand(0)">Stand</button>      
+        </div>
+        <div class="cpu">
+            <div id="cpuCount"></div>
+            <button id="cpuDrawBtn" onclick="dealCard(1)">CPU draw</button>
+            <button id="cpuStandBtn" onclick="stand(1)">Stand</button>
+        </div>
+    </div>
     <script type="text/javascript" src="./main.js"></script>
 </body>
 </html>

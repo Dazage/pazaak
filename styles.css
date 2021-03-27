@@ -1,3 +1,14 @@
 button{
     display: inline-block;
 }
+
+body * {
+    box-sizing: border-box;
+}
+
+.game-area { display: flex; flex-wrap: wrap; border: 1px solid black;}
+.human, .cpu {
+    padding: 0.5rem;
+    flex: 0 0 50%;
+    text-align: center;
+}
