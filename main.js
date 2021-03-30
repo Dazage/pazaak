@@ -12,13 +12,29 @@ let cpuStanding = false;
 
 class MainDeck 
 {
-    constructor(){
-        this.cardsInDeck = [];
+    constructor() {
+        this.deck = [];
+        this.createDeck();
+        this.shuffleDeck();
         // TODO: generate deck cards
     }
-    drawFromDeck(){
+    createDeck() {
+        for (var i = 1 ; i < 11; i++) {
+            for(var x = 1; x < 5; x++) {
+                let card = i;
+                this.deck.push(card);
+            }
+        }
+    }
+    shuffleDeck() {     
+        for (let i = this.deck.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [this.deck[i], this.deck[j]] = [this.deck[j], this.deck[i]];
+        }
+    }
+    drawFromDeck() {
         // TODO: make this function actually 'draw' from this.cardsInDeck instead of just returning randint
-        return Math.floor(Math.random() * (Math.floor(10) - Math.ceil(1) + 1)) + Math.ceil(1);
+        return this.deck.pop()
     }
 }
 
@@ -97,9 +113,3 @@ function winConditionCheck(){
         }
     }
 }
-
-
-
-    
-
-
