@@ -1,3 +1,4 @@
+/*jshint esversion: 6 */
 var hmnScore = 0;
 var hmnElement = document.getElementById("humanCount");
 var cpuScore = 0;
@@ -18,7 +19,7 @@ class MainDeck {
         // TODO: generate deck cards
     }
     createDeck() {
-        for (var i = 1 ; i < 11; i++) {
+        for (var i = 1; i < 11; i++) {
             for(var x = 1; x < 5; x++) {
                 let card = i;
                 this.deck.push(card);
@@ -34,21 +35,40 @@ class MainDeck {
     drawFromDeck() {
         var drawSound = new Audio('./assets/audio/deal_card_slide.mp3');
         drawSound.play();
-        return this.deck.pop()
+        return this.deck.pop();
     }
 }
 
 class SideDeck {
     constructor() {
         this.cardsInDeck = [];
+        this.createDeck();
     }
-    drawFromDeck() {
+    createDeck() {
+        for (let i = 1; i <= 4; i++)
+        {
+            while (true) {
+                let randint = Math.floor(Math.random() * (Math.floor(7) - Math.ceil(-6)) + Math.ceil(-6));
+                if(randint != 0){
+                    this.cardsInDeck.push(randint);
+                    break;
+                }
+            }
+        }       
+        console.log(this.cardsInDeck);
+    }
+    drawFromDeck(index){
+        this.cardsInDeck = this.cardsInDeck.filter(item => item !== index);
+        return this.cardsInDeck[index];
     }
 }
 
 
 // At beginning of each round create a new deck when we code the round/game logic. for now we just create it here
 d = new MainDeck();
+
+cpuSideDeck = new SideDeck();
+humanSideDeck = new SideDeck();
 
 function dealCard(player) {
     switch(player) {
