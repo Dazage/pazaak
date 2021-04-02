@@ -1,4 +1,3 @@
-/*jshint esversion: 6 */
 var hmnScore = 0;
 var hmnElement = document.getElementById("humanCount");
 var cpuScore = 0;
