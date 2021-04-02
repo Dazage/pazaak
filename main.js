@@ -33,7 +33,7 @@ class MainDeck
         }
     }
     drawFromDeck() {
-        var drawSound = new Audio('./deck/deal_card_slide.mp3');
+        var drawSound = new Audio('./assets/audio/deal_card_slide.mp3');
         drawSound.play();
         return this.deck.pop()
     }
