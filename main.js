@@ -63,7 +63,6 @@ function dealCard(player)
 
             console.log(hmnScore);
             if(hmnScore > 20){
-                hmnElement.innerHTML += "- The oppression of the sith will never return; you have lost!";
                 stand(0);
             }
             break;
@@ -73,7 +72,6 @@ function dealCard(player)
 
             console.log(cpuScore);
             if(cpuScore > 20){
-                cpuElement.innerHTML += "- So this is how liberty dies… with thunderous applause; you have lost!"; // vissi ekki hvaða texti mundi hennta svo setti þetta bara
                 stand(1);
             }
             break;
