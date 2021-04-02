@@ -10,8 +10,7 @@ cpuStandBtn = document.getElementById("cpuStandBtn");
 let hmnStanding = false;
 let cpuStanding = false;
 
-class MainDeck 
-{
+class MainDeck {
     constructor() {
         this.deck = [];
         this.createDeck();
@@ -39,13 +38,11 @@ class MainDeck
     }
 }
 
-class SideDeck
-{
-    constructor(){
+class SideDeck {
+    constructor() {
         this.cardsInDeck = [];
     }
-    drawFromDeck(){
-
+    drawFromDeck() {
     }
 }
 
@@ -53,16 +50,14 @@ class SideDeck
 // At beginning of each round create a new deck when we code the round/game logic. for now we just create it here
 d = new MainDeck();
 
-function dealCard(player) 
-{
-    switch(player)
-    {
+function dealCard(player) {
+    switch(player) {
         case 0: // when human
             hmnScore += d.drawFromDeck();
             hmnElement.innerHTML = hmnScore;
 
             console.log(hmnScore);
-            if(hmnScore > 20){
+            if (hmnScore > 20) {
                 stand(0);
             }
             break;
@@ -71,17 +66,16 @@ function dealCard(player)
             cpuElement.innerHTML = cpuScore;
 
             console.log(cpuScore);
-            if(cpuScore > 20){
+            if (cpuScore > 20) {
                 stand(1);
             }
             break;
     }
-
 }
 
 
-function stand(player){
-    switch(player){
+function stand(player) {
+    switch(player) {
         case 0:  // When human
             hmnStanding = true;
             hmnDrawBtn.disabled = true;
@@ -94,20 +88,19 @@ function stand(player){
             break;
     }
     winConditionCheck();
-
 }
 
-function winConditionCheck(){
-    if((hmnStanding && cpuStanding) && (hmnScore <= 20 && cpuScore <= 20)){
-        if(hmnScore > cpuScore){
+function winConditionCheck() {
+    if ((hmnStanding && cpuStanding) && (hmnScore <= 20 && cpuScore <= 20)) {
+        if (hmnScore > cpuScore) {
             alert("Human wins !");
-        }else{
+        } else {
             alert("CPU wins !");
         }
-    }else if((hmnStanding && cpuStanding) && (hmnScore > 20 || cpuScore > 20)){
-        if(hmnScore > 20){
+    } else if ((hmnStanding && cpuStanding) && (hmnScore > 20 || cpuScore > 20)) {
+        if (hmnScore > 20) {
             alert("CPU wins !");
-        }else{
+        } else {
             alert("Human wins !");
         }
     }
