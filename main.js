@@ -25,7 +25,7 @@ class MainDeck {
             }
         }
     }
-    shuffleDeck() {     
+    shuffleDeck() {
         for (let i = this.deck.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [this.deck[i], this.deck[j]] = [this.deck[j], this.deck[i]];
@@ -34,7 +34,7 @@ class MainDeck {
     drawFromDeck() {
         var drawSound = new Audio('./assets/audio/deal_card_slide.mp3');
         drawSound.play();
-        return this.deck.pop()
+        return this.deck.pop();
     }
 }
 
@@ -52,27 +52,24 @@ d = new MainDeck();
 
 function dealCard(player) {
     switch(player) {
-        case 0: // when human
-            score = d.drawFromDeck();
-            console.log(score);
-            hmnScore += score;
-            hmnElement.innerHTML = hmnScore;
-            showCardPlayer(score);
-            console.log(hmnScore);
-            if (hmnScore > 20) {
-                stand(0);
-            }
-            break;
-        case 1: // when cpu
-            score = d.drawFromDeck();
-            cpuScore += score;
-            cpuElement.innerHTML = cpuScore;
-            showCardComputer(score);
-            console.log(cpuScore);
-            if (cpuScore > 20) {
-                stand(1);
-            }
-            break;
+    case 0: // when human
+        hmnScore += d.drawFromDeck();
+        hmnElement.innerHTML = hmnScore;
+
+        console.log(hmnScore);
+        if (hmnScore > 20) {
+            stand(0);
+        }
+        break;
+    case 1: // when cpu
+        cpuScore += d.drawFromDeck();
+        cpuElement.innerHTML = cpuScore;
+
+        console.log(cpuScore);
+        if (cpuScore > 20) {
+            stand(1);
+        }
+        break;
     }
 }
 function showCardPlayer(card) {
@@ -93,16 +90,16 @@ function showCardComputer(card) {
 
 function stand(player) {
     switch(player) {
-        case 0:  // When human
-            hmnStanding = true;
-            hmnDrawBtn.disabled = true;
-            hmnStandBtn.disabled = true;
-            break;
-        case 1:  // When cpu
-            cpuStanding = true;
-            cpuDrawBtn.disabled = true;
-            cpuStandBtn.disabled = true;
-            break;
+    case 0:  // When human
+        hmnStanding = true;
+        hmnDrawBtn.disabled = true;
+        hmnStandBtn.disabled = true;
+        break;
+    case 1:  // When cpu
+        cpuStanding = true;
+        cpuDrawBtn.disabled = true;
+        cpuStandBtn.disabled = true;
+        break;
     }
     winConditionCheck();
 }
