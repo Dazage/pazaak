@@ -72,6 +72,20 @@ function dealCard(player) {
         break;
     }
 }
+function showCardPlayer(card) {
+    let cardImage = document.createElement('img');
+    cardImage.src = `./assets/cards/${card}.png`;
+    document.querySelector('#human-game').appendChild(cardImage);
+     
+}
+
+function showCardComputer(card) {
+    let cardImage = document.createElement('img');
+    cardImage.src = `./assets/cards/${card}.png`;
+    document.querySelector('#cpu-game').appendChild(cardImage);
+  
+}
+
 
 
 function stand(player) {
