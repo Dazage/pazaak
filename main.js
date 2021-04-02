@@ -33,7 +33,8 @@ class MainDeck
         }
     }
     drawFromDeck() {
-        // TODO: make this function actually 'draw' from this.cardsInDeck instead of just returning randint
+        var drawSound = new Audio('./deck/deal_card_slide.mp3');
+        drawSound.play();
         return this.deck.pop()
     }
 }
