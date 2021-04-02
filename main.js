@@ -53,18 +53,21 @@ d = new MainDeck();
 function dealCard(player) {
     switch(player) {
         case 0: // when human
-            hmnScore += d.drawFromDeck();
+            score = d.drawFromDeck();
+            console.log(score);
+            hmnScore += score;
             hmnElement.innerHTML = hmnScore;
-
+            showCardPlayer(score);
             console.log(hmnScore);
             if (hmnScore > 20) {
                 stand(0);
             }
             break;
         case 1: // when cpu
-            cpuScore += d.drawFromDeck();
+            score = d.drawFromDeck();
+            cpuScore += score;
             cpuElement.innerHTML = cpuScore;
-
+            showCardComputer(score);
             console.log(cpuScore);
             if (cpuScore > 20) {
                 stand(1);
@@ -72,6 +75,20 @@ function dealCard(player) {
             break;
     }
 }
+function showCardPlayer(card) {
+    let cardImage = document.createElement('img');
+    cardImage.src = `./assets/cards/${card}.png`;
+    document.querySelector('#human-game').appendChild(cardImage);
+     
+}
+
+function showCardComputer(card) {
+    let cardImage = document.createElement('img');
+    cardImage.src = `./assets/cards/${card}.png`;
+    document.querySelector('#cpu-game').appendChild(cardImage);
+  
+}
+
 
 
 function stand(player) {

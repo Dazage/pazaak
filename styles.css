@@ -1,3 +1,5 @@
+/*
+
 button{
     display: inline-block;
 }
@@ -11,4 +13,60 @@ body * {
     padding: 0.5rem;
     flex: 0 0 50%;
     text-align: center;
+}
+*/
+
+.container {
+    border: 1px solid black;
+    width: 85%;
+    margin: 0 auto;
+    text-align: center;
+
+}
+
+.wins {
+    display: flex;
+    border: 1px solid black;
+    padding: 10px;
+    justify-content: space-around;
+}
+
+.buttonRow {
+    display: flex;
+    border: 1px solid black;
+
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.game-area  {
+    display: flex;
+    border: 1px solid black;
+    padding: 120px;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.game-area div {
+    border: 1px solid black;
+    padding: 10px;
+    flex: 1;
+    text-align: center;
+    height: 300px;
+}
+.game-area div img {
+    width: 40;
+    padding: 5px;
+}
+
+.buttonRow {
+    border: 1px solid black;
+    padding: 10px;
+}
+
+.buttonRow div {
+    border: 1px solid black;
+    padding: 10px;
 }
