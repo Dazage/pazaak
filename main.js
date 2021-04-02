@@ -31,10 +31,12 @@ class MainDeck {
             [this.deck[i], this.deck[j]] = [this.deck[j], this.deck[i]];
         }
     }
-    drawFromDeck() {
+    drawFromDeck(player) {
         var drawSound = new Audio('./assets/audio/deal_card_slide.mp3');
         drawSound.play();
-        return this.deck.pop();
+	let card = this.deck.pop();
+	showCard(player, card);
+	return card;
     }
 }
 
@@ -43,7 +45,6 @@ class SideDeck {
         this.cardsInDeck = [];
         this.createDeck();
     }
-    drawFromDeck() {
     createDeck() {
         for (let i = 1; i <= 4; i++)
         {
@@ -73,7 +74,7 @@ humanSideDeck = new SideDeck();
 function dealCard(player) {
     switch(player) {
     case 0: // when human
-        hmnScore += d.drawFromDeck();
+        hmnScore += d.drawFromDeck(0);
         hmnElement.innerHTML = hmnScore;
 
         console.log(hmnScore);
@@ -82,7 +83,7 @@ function dealCard(player) {
         }
         break;
     case 1: // when cpu
-        cpuScore += d.drawFromDeck();
+        cpuScore += d.drawFromDeck(1);
         cpuElement.innerHTML = cpuScore;
 
         console.log(cpuScore);
@@ -92,21 +93,20 @@ function dealCard(player) {
         break;
     }
 }
-function showCardPlayer(card) {
+
+function showCard(player, card) {
     let cardImage = document.createElement('img');
-    cardImage.src = `./assets/cards/${card}.png`;
-    document.querySelector('#human-game').appendChild(cardImage);
-     
+    cardImage.src = `./assets/cards/G${card}.png`;
+
+    switch(player) {
+    case 0:
+	document.querySelector('#human-game').appendChild(cardImage);	
+	break;
+    case 1:
+	document.querySelector('#cpu-game').appendChild(cardImage);	
+	break;
+    }
 }
-
-function showCardComputer(card) {
-    let cardImage = document.createElement('img');
-    cardImage.src = `./assets/cards/${card}.png`;
-    document.querySelector('#cpu-game').appendChild(cardImage);
-  
-}
-
-
 
 function stand(player) {
     switch(player) {
