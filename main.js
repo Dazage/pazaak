@@ -32,8 +32,10 @@ class MainDeck {
         }
     }
     drawFromDeck(player) {
+	// play a sound when a card is being delt
         var drawSound = new Audio('./assets/audio/deal_card_slide.mp3');
         drawSound.play();
+
 	let card = this.deck.pop();
 	showCard(player, card);
 	return card;
@@ -48,9 +50,9 @@ class SideDeck {
     createDeck() {
         for (let i = 1; i <= 4; i++)
         {
-            while (true) {
+            while(true) {
                 let randint = Math.floor(Math.random() * (Math.floor(7) - Math.ceil(-6)) + Math.ceil(-6));
-                if(randint != 0){
+                if(randint != 0) {
                     this.cardsInDeck.push(randint);
                     break;
                 }
@@ -76,20 +78,10 @@ function dealCard(player) {
     case 0: // when human
         hmnScore += d.drawFromDeck(0);
         hmnElement.innerHTML = hmnScore;
-
-        console.log(hmnScore);
-        if (hmnScore > 20) {
-            stand(0);
-        }
         break;
     case 1: // when cpu
         cpuScore += d.drawFromDeck(1);
         cpuElement.innerHTML = cpuScore;
-
-        console.log(cpuScore);
-        if (cpuScore > 20) {
-            stand(1);
-        }
         break;
     }
 }
@@ -177,6 +169,29 @@ function stand(player) {
     winConditionCheck();
 }
 
+function cpuLogic() {
+    if (hmnStanding && hmnScore > cpuScore) {
+	// loop here that tries to get the cpu to 20
+    } else if (hmnStanding && hmnScore <= cpuScore) {
+//	stand(1);
+//    } else if ((hmnStanding == false) && (cpuScore >= 16 && cpuScore > hmnScore)) {
+//	stand(1);
+    } else if (cpuScore = 20) {
+	stand(1);
+    } else {
+//	dealCard(1);
+    }
+}
+
+function endTurn() {
+    if (hmnScore > 20) {
+	stand(0);
+    }
+    dealCard(1); // CPU receives a card
+    cpuLogic(); // calculate CPU move
+    dealCard(0); // player's turn again
+}
+
 function winConditionCheck() {
     if ((hmnStanding && cpuStanding) && (hmnScore <= 20 && cpuScore <= 20)) {
         if (hmnScore > cpuScore) {
@@ -192,3 +207,5 @@ function winConditionCheck() {
         }
     }
 }
+
+dealCard(0);
