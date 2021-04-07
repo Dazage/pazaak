@@ -34,7 +34,6 @@ body * {
 .buttonRow {
     display: flex;
     border: 1px solid black;
-
     flex-wrap: wrap;
     flex-direction: row;
     justify-content: space-around;
@@ -43,11 +42,36 @@ body * {
 .game-area  {
     display: flex;
     border: 1px solid black;
-    padding: 120px;
+    padding-top: 30px;
+    padding-left: 120px;
+    padding-right: 120px;
+    padding-bottom: 0px;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-around;   
+}
+
+.card-area {
+    display: flex;
+    border: 1px solid black;
     flex-wrap: wrap;
     flex-direction: row;
     justify-content: space-around;
 }
+
+#human-game, #cpu-game {
+    background-color: #ccffcc;
+ 
+}
+
+
+#hmnSideDeck, #cpuSideDeck {
+    width: 200px;
+    margin: 5px;
+    background-color: purple;
+
+}
+
 
 .game-area div {
     border: 1px solid black;
@@ -55,10 +79,28 @@ body * {
     flex: 1;
     text-align: center;
     height: 300px;
+    display: block;
+
 }
+.card-area div {
+    border: 1px solid black;
+    padding: 10px;
+    flex: 1;
+    text-align: center;
+    height: 100px;
+    font-weight: 700;
+}
+
+
 .game-area div img {
     width: 40;
     padding: 5px;
+}
+.card-area div img {
+    width: 60px;
+    padding: 5px;
+    display: block;
+  
 }
 
 .buttonRow {

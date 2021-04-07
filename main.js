@@ -94,6 +94,59 @@ function dealCard(player) {
     }
 }
 
+function showHumanSideDeck() {
+    counter = 0;
+    for (i = 0; i < 4; i++) {
+        card = (humanSideDeck.cardsInDeck[i]); 
+        let cardImage = document.createElement('img');
+        cardImage.id = `hmn${card}`;
+        cardImage.src = `./assets/cards/B${card}.png`; 
+        document.querySelector(`#hmnSideDeck${i}`).innerHTML = card;
+        document.querySelector(`#hmnSideDeck${i}`).appendChild(cardImage);
+    }
+}
+showHumanSideDeck();
+
+function showCpuSideDeck() {
+    cardnr = 0;
+    for (i = 0; i < 4; i++) {
+        card = (cpuSideDeck.cardsInDeck[i]);
+        console.log(card);  
+        let cardImage = document.createElement('img');
+        cardImage.id = `cpu${card}`;
+        cardImage.src = `./assets/cards/B${card}.png`;
+        document.querySelector(`#cpuSideDeck${i}`).innerHTML = card;
+        document.querySelector(`#cpuSideDeck${i}`).appendChild(cardImage); 
+    }
+}
+showCpuSideDeck();
+
+function dealHumanSide(yourChoice) {
+    console.log(yourChoice);
+    valueSideCard = parseInt(yourChoice.innerHTML);
+    hmnScore += parseInt(yourChoice.innerHTML);
+    hmnElement.innerHTML = hmnScore;
+    let cardImage = document.createElement('img');
+    cardImage.src = `./assets/cards/B${valueSideCard}.png`;
+    document.querySelector('#human-game').appendChild(cardImage);
+    // núllstilla
+    var back = document.getElementById(yourChoice.id);
+    back.innerHTML= "<img src=./assets/cards/back.png>";
+}
+
+function dealCpuSide(yourChoice) {
+    valueSideCard = parseInt(yourChoice.innerHTML);
+    cpuScore += parseInt(yourChoice.innerHTML);
+    cpuElement.innerHTML = cpuScore;
+    let cardImage = document.createElement('img');
+    cardImage.src = `./assets/cards/B${valueSideCard}.png`;
+    document.querySelector('#cpu-game').appendChild(cardImage);
+    // núllstilla
+    var back = document.getElementById(yourChoice.id);
+    back.innerHTML= "<img src=./assets/cards/back.png>";
+}
+
+
 function showCard(player, card) {
     let cardImage = document.createElement('img');
     cardImage.src = `./assets/cards/G${card}.png`;
