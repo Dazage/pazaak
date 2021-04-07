@@ -169,7 +169,6 @@ function stand(player) {
             dealCard(1);
             cpuLogic();
         }
-
         break;
     case 1:  // When cpu
     // todo: add indicator that the CPU is standing
@@ -182,13 +181,12 @@ function stand(player) {
 }
 
 function cpuLogic() {
-    if (hmnStanding && hmnScore <= cpuScore) {
+    if (hmnStanding && hmnScore <= cpuScore && hmnScore <= 20) {
         stand(1);
     } else if ((hmnStanding == false) && (cpuScore >= 16 && cpuScore > hmnScore)) {
         stand(1);
     } else if (cpuScore == 20) {
         stand(1);
-    } else {
     }
 }
 
@@ -214,6 +212,7 @@ function winConditionCheck() {
             alert("Human wins !");
         }
         playing = false;
+        
     }
 }
 
