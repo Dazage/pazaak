@@ -15,7 +15,6 @@ class MainDeck {
         this.deck = [];
         this.createDeck();
         this.shuffleDeck();
-        // TODO: generate deck cards
     }
     createDeck() {
         for (var i = 1; i < 11; i++) {
@@ -177,8 +176,9 @@ function stand(player) {
         cpuStanding = true;
         break;
     }
-    endTurn();
-    winConditionCheck();
+    if (hmnStanding && cpuStanding) {
+        winConditionCheck();
+    }
 }
 
 function cpuLogic() {
