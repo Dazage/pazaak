@@ -80,19 +80,13 @@ function dealCard(player) {
         hmnElement.innerHTML = hmnScore;
         break;
     case 1: // when cpu
-        cpuScore += d.drawFromDeck(1);
-        cpuElement.innerHTML = cpuScore;
-
-        if (hmnStanding && hmnScore > cpuScore) {
-        } else if (hmnStanding && hmnScore <= cpuScore) {
-            stand(1);
-        } else if ((hmnStanding == false) && (cpuScore >= 16 && cpuScore > hmnScore)) {
-            stand(1);
-        } else if (cpuScore = 20) {
-            stand(1);
+        if(cpuStanding) {
+            break;
         } else {
+            cpuScore += d.drawFromDeck(1);
+            cpuElement.innerHTML = cpuScore;
+            break;
         }
-        break;
     }
 }
 
@@ -101,8 +95,9 @@ function showHumanSideDeck() {
     for (i = 0; i < 4; i++) {
         card = (humanSideDeck.cardsInDeck[i]); 
         let cardImage = document.createElement('img');
-        cardImage.id = `hmn${card}`;
-        cardImage.src = `./assets/cards/B${card}.png`; 
+        //cardImage.id = `hmn${card}`;
+        cardImage.src = `./assets/cards/B${card}.png`;
+
         document.querySelector(`#hmnSideDeck${i}`).innerHTML = card;
         document.querySelector(`#hmnSideDeck${i}`).appendChild(cardImage);
     }
@@ -115,8 +110,9 @@ function showCpuSideDeck() {
         card = (cpuSideDeck.cardsInDeck[i]);
         console.log(card);  
         let cardImage = document.createElement('img');
-        cardImage.id = `cpu${card}`;
+        //cardImage.id = `cpu${card}`;
         cardImage.src = `./assets/cards/B${card}.png`;
+
         document.querySelector(`#cpuSideDeck${i}`).innerHTML = card;
         document.querySelector(`#cpuSideDeck${i}`).appendChild(cardImage); 
     }
@@ -169,27 +165,38 @@ function stand(player) {
         hmnStanding = true;
         hmnDrawBtn.disabled = true;
         hmnStandBtn.disabled = true;
+
+        while(cpuStanding == false && playing == true) {
+            dealCard(1);
+            cpuLogic();
+        }
+
         break;
     case 1:  // When cpu
+    // todo: add indicator that the CPU is standing
         cpuStanding = true;
-        cpuDrawBtn.disabled = true;
-        cpuStandBtn.disabled = true;
         break;
     }
+    endTurn();
     winConditionCheck();
 }
 
 function cpuLogic() {
-
+    if (hmnStanding && hmnScore <= cpuScore) {
+        stand(1);
+    } else if ((hmnStanding == false) && (cpuScore >= 16 && cpuScore > hmnScore)) {
+        stand(1);
+    } else if (cpuScore == 20) {
+        stand(1);
+    } else {
+    }
 }
 
 function endTurn() {
     if (hmnScore > 20) {
     	stand(0);
     }
-    dealCard(1); // CPU receives a card
-    //cpuLogic(); // calculate CPU move
-    dealCard(0); // player's turn again
+    gameLoop();
 }
 
 function winConditionCheck() {
@@ -199,13 +206,29 @@ function winConditionCheck() {
         } else {
             alert("CPU wins !");
         }
+        playing = false;
     } else if ((hmnStanding && cpuStanding) && (hmnScore > 20 || cpuScore > 20)) {
         if (hmnScore > 20) {
             alert("CPU wins !");
         } else {
             alert("Human wins !");
         }
+        playing = false;
     }
 }
 
-dealCard(0);
+function gameLoop() {
+    if (playing == true) {
+        dealCard(1); // CPU receives a card
+        cpuLogic();
+        dealCard(0); // player's turn again
+    }
+}
+
+playing = true;
+gameLoop();
+
+while(hmnStanding && playing) {
+    dealCard(1);
+    cpuLogic();
+}
