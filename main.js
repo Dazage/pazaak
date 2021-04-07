@@ -82,6 +82,16 @@ function dealCard(player) {
     case 1: // when cpu
         cpuScore += d.drawFromDeck(1);
         cpuElement.innerHTML = cpuScore;
+
+        if (hmnStanding && hmnScore > cpuScore) {
+        } else if (hmnStanding && hmnScore <= cpuScore) {
+            stand(1);
+        } else if ((hmnStanding == false) && (cpuScore >= 16 && cpuScore > hmnScore)) {
+            stand(1);
+        } else if (cpuScore = 20) {
+            stand(1);
+        } else {
+        }
         break;
     }
 }
@@ -170,25 +180,15 @@ function stand(player) {
 }
 
 function cpuLogic() {
-    if (hmnStanding && hmnScore > cpuScore) {
-	// loop here that tries to get the cpu to 20
-    } else if (hmnStanding && hmnScore <= cpuScore) {
-//	stand(1);
-//    } else if ((hmnStanding == false) && (cpuScore >= 16 && cpuScore > hmnScore)) {
-//	stand(1);
-    } else if (cpuScore = 20) {
-	stand(1);
-    } else {
-//	dealCard(1);
-    }
+
 }
 
 function endTurn() {
     if (hmnScore > 20) {
-	stand(0);
+    	stand(0);
     }
     dealCard(1); // CPU receives a card
-    cpuLogic(); // calculate CPU move
+    //cpuLogic(); // calculate CPU move
     dealCard(0); // player's turn again
 }
 
