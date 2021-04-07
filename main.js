@@ -68,26 +68,8 @@ class SideDeck {
 
 // At beginning of each round create a new deck when we code the round/game logic. for now we just create it here
 d = new MainDeck();
-
 cpuSideDeck = new SideDeck();
 humanSideDeck = new SideDeck();
-
-function dealCard(player) {
-    switch(player) {
-    case 0: // when human
-        hmnScore += d.drawFromDeck(0);
-        hmnElement.innerHTML = hmnScore;
-        break;
-    case 1: // when cpu
-        if(cpuStanding) {
-            break;
-        } else {
-            cpuScore += d.drawFromDeck(1);
-            cpuElement.innerHTML = cpuScore;
-            break;
-        }
-    }
-}
 
 function showHumanSideDeck() {
     counter = 0;
@@ -158,6 +140,25 @@ function showCard(player, card) {
     }
 }
 
+// Game
+
+function dealCard(player) {
+    switch(player) {
+    case 0: // when human
+        hmnScore += d.drawFromDeck(0);
+        hmnElement.innerHTML = hmnScore;
+        break;
+    case 1: // when cpu
+        if(cpuStanding) {
+            break;
+        } else {
+            cpuScore += d.drawFromDeck(1);
+            cpuElement.innerHTML = cpuScore;
+            break;
+        }
+    }
+}
+
 function stand(player) {
     switch(player) {
     case 0:  // When human
@@ -191,10 +192,16 @@ function cpuLogic() {
 }
 
 function endTurn() {
-    if (hmnScore > 20) {
-    	stand(0);
-    }
     gameLoop();
+}
+
+function bust() {
+    if (hmnScore > 20 || cpuScore > 20) {
+        playing = false;
+        stand(0);
+        stand(1);
+        winConditionCheck();
+    }
 }
 
 function winConditionCheck() {
@@ -212,7 +219,6 @@ function winConditionCheck() {
             alert("Human wins !");
         }
         playing = false;
-        
     }
 }
 
