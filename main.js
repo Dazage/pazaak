@@ -38,9 +38,9 @@ class MainDeck {
         var drawSound = new Audio('./assets/audio/deal_card_slide.mp3');
         drawSound.play();
 
-	let card = this.deck.pop();
-	showCard(player, card);
-	return card;
+        let card = this.deck.pop();
+        showCard(player, card);
+        return card;
     }
 }
 
@@ -168,12 +168,6 @@ function endTurn() {
         cpuStanding = true;
         console.log('cpuStanding' + cpuStanding);
     }
-
-    // player goes bust
-    if (hmnScore > 20) {
-        console.log("player is standing");
-        stand();
-    }
 }
 
 function stand() {
@@ -199,7 +193,6 @@ function delayResults() {
         /*
             document.querySelector('#human-game').innerHTML = '<h2 id="humanCount">0</h2>';
             document.querySelector('#cpu-game').innerHTML = '<h2 id="cpuCount">0</h2>';
-        
         */ 
 
         let yourImages = document.querySelector('#human-game').querySelectorAll('img');
@@ -241,87 +234,3 @@ function roundWinner() {
         document.querySelector('#message').innerHTML = 'Cpu Wins';
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-
-function gameLoop() {
-    if (playing == true) {
-        dealCard(1); // CPU receives a card
-        cpuLogic();
-        dealCard(0); // player's turn again
-    }
-}
-
-playing = true;
-gameLoop();
-
-while(hmnStanding && playing) {
-    dealCard(1);
-    cpuLogic();
-}
-
-
-
-
-
-function stand(player) {
-    switch(player) {
-    case 0:  // When human
-        hmnStanding = true;
-        hmnDrawBtn.disabled = true;
-        hmnStandBtn.disabled = true;
-
-        while(cpuStanding == false && playing == true) {
-            dealCard(1);
-            cpuLogic();
-        }
-        break;
-    case 1:  // When cpu
-    // todo: add indicator that the CPU is standing
-        cpuStanding = true;
-        break;
-    }
-    if (hmnStanding && cpuStanding) {
-        winConditionCheck();
-    }
-}
-
-function cpuLogic() {
-    if (hmnStanding && hmnScore <= cpuScore && hmnScore <= 20) {
-        stand(1);
-    } else if ((hmnStanding == false) && (cpuScore >= 16 && cpuScore > hmnScore)) {
-        stand(1);
-    } else if (cpuScore == 20) {
-        stand(1);
-    }
-}
-
-function endTurn() {
-    if (hmnScore > 20) {
-    	stand(0);
-    }
-    gameLoop();
-}
-
-
-
-
-
-*/
