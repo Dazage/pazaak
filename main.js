@@ -2,11 +2,17 @@ var hmnScore = 0;
 var hmnElement = document.getElementById("humanCount");
 var cpuScore = 0;
 var cpuElement = document.getElementById("cpuCount");
+var hmnWins = 0;
+var cpuWins = 0;
+var hmnEleWins = document.getElementById("hmnWins");
+var cpuEleWins = document.getElementById("cpuWins");
+
+
+
 
 hmnDrawBtn = document.getElementById("hmnDrawBtn");
 hmnStandBtn = document.getElementById("hmnStandBtn");
-cpuDrawBtn = document.getElementById("cpuDrawBtn");
-cpuStandBtn = document.getElementById("cpuStandBtn");
+
 let hmnStanding = false;
 let cpuStanding = false;
 
@@ -68,8 +74,26 @@ class SideDeck {
 
 // At beginning of each round create a new deck when we code the round/game logic. for now we just create it here
 d = new MainDeck();
+
 cpuSideDeck = new SideDeck();
 humanSideDeck = new SideDeck();
+
+function dealCard(player) {
+    switch(player) {
+    case 0: // when human
+        hmnScore += d.drawFromDeck(0);
+        hmnElement.innerHTML = hmnScore;
+        break;
+    case 1: // when cpu
+        if(cpuStanding) {
+            break;
+        } else {
+            cpuScore += d.drawFromDeck(1);
+            cpuElement.innerHTML = cpuScore;
+            break;
+        }
+    }
+}
 
 function showHumanSideDeck() {
     counter = 0;
@@ -88,8 +112,7 @@ showHumanSideDeck();
 function showCpuSideDeck() {
     cardnr = 0;
     for (i = 0; i < 4; i++) {
-        card = (cpuSideDeck.cardsInDeck[i]);
-        console.log(card);  
+        card = (cpuSideDeck.cardsInDeck[i]);  
         let cardImage = document.createElement('img');
         //cardImage.id = `cpu${card}`;
         cardImage.src = `./assets/cards/B${card}.png`;
@@ -101,7 +124,6 @@ function showCpuSideDeck() {
 showCpuSideDeck();
 
 function dealHumanSide(yourChoice) {
-    console.log(yourChoice);
     valueSideCard = parseInt(yourChoice.innerHTML);
     hmnScore += parseInt(yourChoice.innerHTML);
     hmnElement.innerHTML = hmnScore;
@@ -140,24 +162,131 @@ function showCard(player, card) {
     }
 }
 
-// Game
 
-function dealCard(player) {
-    switch(player) {
-    case 0: // when human
-        hmnScore += d.drawFromDeck(0);
-        hmnElement.innerHTML = hmnScore;
-        break;
-    case 1: // when cpu
-        if(cpuStanding) {
-            break;
+
+computerStands = false;
+
+
+
+
+
+
+
+function endTurn() {
+    if (computerStands == false) {
+        dealCard(0);
+        dealCard(1);
         } else {
-            cpuScore += d.drawFromDeck(1);
-            cpuElement.innerHTML = cpuScore;
-            break;
-        }
+            dealCard(0);
+        } 
+        //if ((hmnScore <= 20 && hmnScore > cpuScore) || (hmnScore <=20 && hmnScore > cpuScore)) {
+        if (cpuScore >= 15 && cpuScore > hmnScore) {
+        computerStands = true;
+        console.log('computerStands' + computerStands);
+
+
     }
 }
+
+function stand() {
+    if (computerStands == false) {
+        console.log(hmnDrawBtn);
+        hmnDrawBtn.disabled = true;
+        while ((cpuScore <= 15 && hmnScore <=20) || (hmnScore <=20 && hmnScore > cpuScore)) {
+            dealCard(1);
+            setTimeout(function () {
+
+        }, 500);
+    }
+    }
+    computerStands = true;
+    console.log('computerStands' + computerStands);
+    delayResults();
+    roundWinner();
+    computerStands = false;
+
+
+}
+
+
+function delayResults() {
+    setTimeout(function() {
+    let yourImages = document.querySelector('#human-game').querySelectorAll('img');
+    let dealerImages = document.querySelector('#cpu-game').querySelectorAll('img');
+    for (i = 0; i < yourImages.length; i++) {
+        yourImages[i].remove();
+    }
+    for (i = 0; i < dealerImages.length; i++) {
+        dealerImages[i].remove();
+    }   
+    hmnDrawBtn.disabled = false;
+    document.querySelector('#humanCount').innerHTML = 0;
+    hmnScore = 0;
+    document.querySelector('#cpuCount').innerHTML = 0;
+    cpuScore = 0;
+    document.querySelector('#message').innerHTML = 'Lets Play';
+
+    },2500);
+}
+
+
+function roundWinner() {
+    if (hmnScore === cpuScore || (hmnScore > 20 && cpuScore > 20)) {
+        return document.querySelector('#message').innerHTML = 'Draw';
+    }
+        if ((hmnScore <= 20 && cpuScore <= 20) && (hmnScore > cpuScore)) {
+            hmnWins +=1;
+            hmnEleWins.innerHTML = hmnWins;
+            document.querySelector('#message').innerHTML = 'Player Wins';
+        } else if (cpuScore > 20 && hmnScore <= 20) {
+            hmnWins +=1;
+            hmnEleWins.innerHTML = hmnWins;
+            document.querySelector('#message').innerHTML = 'Player Wins';
+        }else {
+            cpuWins +=1;
+            cpuEleWins.innerHTML = cpuWins;
+            document.querySelector('#message').innerHTML = 'Cpu Wins';
+        }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+
+function gameLoop() {
+    if (playing == true) {
+        dealCard(1); // CPU receives a card
+        cpuLogic();
+        dealCard(0); // player's turn again
+    }
+}
+
+playing = true;
+gameLoop();
+
+while(hmnStanding && playing) {
+    dealCard(1);
+    cpuLogic();
+}
+
+
+
+
 
 function stand(player) {
     switch(player) {
@@ -192,48 +321,14 @@ function cpuLogic() {
 }
 
 function endTurn() {
+    if (hmnScore > 20) {
+    	stand(0);
+    }
     gameLoop();
 }
 
-function bust() {
-    if (hmnScore > 20 || cpuScore > 20) {
-        playing = false;
-        stand(0);
-        stand(1);
-        winConditionCheck();
-    }
-}
 
-function winConditionCheck() {
-    if ((hmnStanding && cpuStanding) && (hmnScore <= 20 && cpuScore <= 20)) {
-        if (hmnScore > cpuScore) {
-            alert("Human wins !");
-        } else {
-            alert("CPU wins !");
-        }
-        playing = false;
-    } else if ((hmnStanding && cpuStanding) && (hmnScore > 20 || cpuScore > 20)) {
-        if (hmnScore > 20) {
-            alert("CPU wins !");
-        } else {
-            alert("Human wins !");
-        }
-        playing = false;
-    }
-}
 
-function gameLoop() {
-    if (playing == true) {
-        dealCard(1); // CPU receives a card
-        cpuLogic();
-        dealCard(0); // player's turn again
-    }
-}
 
-playing = true;
-gameLoop();
 
-while(hmnStanding && playing) {
-    dealCard(1);
-    cpuLogic();
-}
+*/
