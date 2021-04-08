@@ -7,9 +7,6 @@ var cpuWins = 0;
 var hmnEleWins = document.getElementById("hmnWins");
 var cpuEleWins = document.getElementById("cpuWins");
 
-
-
-
 hmnDrawBtn = document.getElementById("hmnDrawBtn");
 hmnStandBtn = document.getElementById("hmnStandBtn");
 
@@ -77,6 +74,8 @@ d = new MainDeck();
 
 cpuSideDeck = new SideDeck();
 humanSideDeck = new SideDeck();
+showHumanSideDeck();
+showCpuSideDeck();
 
 function dealCard(player) {
     switch(player) {
@@ -85,13 +84,9 @@ function dealCard(player) {
         hmnElement.innerHTML = hmnScore;
         break;
     case 1: // when cpu
-        if(cpuStanding) {
-            break;
-        } else {
-            cpuScore += d.drawFromDeck(1);
-            cpuElement.innerHTML = cpuScore;
-            break;
-        }
+        cpuScore += d.drawFromDeck(1);
+        cpuElement.innerHTML = cpuScore;
+        break;
     }
 }
 
@@ -107,7 +102,6 @@ function showHumanSideDeck() {
         document.querySelector(`#hmnSideDeck${i}`).appendChild(cardImage);
     }
 }
-showHumanSideDeck();
 
 function showCpuSideDeck() {
     cardnr = 0;
@@ -121,7 +115,6 @@ function showCpuSideDeck() {
         document.querySelector(`#cpuSideDeck${i}`).appendChild(cardImage); 
     }
 }
-showCpuSideDeck();
 
 function dealHumanSide(yourChoice) {
     valueSideCard = parseInt(yourChoice.innerHTML);
@@ -153,80 +146,80 @@ function showCard(player, card) {
     cardImage.src = `./assets/cards/G${card}.png`;
 
     switch(player) {
-    case 0:
-	document.querySelector('#human-game').appendChild(cardImage);	
-	break;
-    case 1:
-	document.querySelector('#cpu-game').appendChild(cardImage);	
-	break;
+        case 0:
+            document.querySelector('#human-game').appendChild(cardImage);	
+            break;
+        case 1:
+            document.querySelector('#cpu-game').appendChild(cardImage);	
+            break;
     }
 }
 
 
-
-computerStands = false;
-
-
-
-
-
-
-
 function endTurn() {
-    if (computerStands == false) {
+    if (cpuStanding == false) {
         dealCard(0);
         dealCard(1);
-        } else {
-            dealCard(0);
-        } 
-        //if ((hmnScore <= 20 && hmnScore > cpuScore) || (hmnScore <=20 && hmnScore > cpuScore)) {
-        if (cpuScore >= 15 && cpuScore > hmnScore) {
-        computerStands = true;
-        console.log('computerStands' + computerStands);
+    } else {
+        dealCard(0);
+    } 
+    //if ((hmnScore <= 20 && hmnScore > cpuScore) || (hmnScore <=20 && hmnScore > cpuScore)) {
+    if (cpuScore >= 15 && cpuScore > hmnScore) {
+        cpuStanding = true;
+        console.log('cpuStanding' + cpuStanding);
+    }
 
-
+    // player goes bust
+    if (hmnScore > 20) {
+        console.log("player is standing");
+        stand();
     }
 }
 
 function stand() {
-    if (computerStands == false) {
-        console.log(hmnDrawBtn);
+    if (cpuStanding == false) {
         hmnDrawBtn.disabled = true;
+        hmnStandBtn.disabled = true;
         while ((cpuScore <= 15 && hmnScore <=20) || (hmnScore <=20 && hmnScore > cpuScore)) {
             dealCard(1);
-            setTimeout(function () {
-
-        }, 500);
+        }
     }
-    }
-    computerStands = true;
-    console.log('computerStands' + computerStands);
+    cpuStanding = true;
+    console.log('cpuStanding' + cpuStanding);
     delayResults();
     roundWinner();
-    computerStands = false;
+    cpuStanding = false;
 
-
+    d = new MainDeck();
 }
 
 
 function delayResults() {
     setTimeout(function() {
-    let yourImages = document.querySelector('#human-game').querySelectorAll('img');
-    let dealerImages = document.querySelector('#cpu-game').querySelectorAll('img');
-    for (i = 0; i < yourImages.length; i++) {
-        yourImages[i].remove();
-    }
-    for (i = 0; i < dealerImages.length; i++) {
-        dealerImages[i].remove();
-    }   
-    hmnDrawBtn.disabled = false;
-    document.querySelector('#humanCount').innerHTML = 0;
-    hmnScore = 0;
-    document.querySelector('#cpuCount').innerHTML = 0;
-    cpuScore = 0;
-    document.querySelector('#message').innerHTML = 'Lets Play';
+        /*
+            document.querySelector('#human-game').innerHTML = '<h2 id="humanCount">0</h2>';
+            document.querySelector('#cpu-game').innerHTML = '<h2 id="cpuCount">0</h2>';
+        
+        */ 
 
-    },2500);
+        let yourImages = document.querySelector('#human-game').querySelectorAll('img');
+        let dealerImages = document.querySelector('#cpu-game').querySelectorAll('img');
+
+        for (i = 0; i < yourImages.length; i++) {
+            yourImages[i].remove();
+        }
+        for (i = 0; i < dealerImages.length; i++) {
+            dealerImages[i].remove();
+        }
+        
+        hmnDrawBtn.disabled = false;
+        hmnStandBtn.disabled = false;
+        document.querySelector('#humanCount').innerHTML = 0;
+        hmnScore = 0;
+        document.querySelector('#cpuCount').innerHTML = 0;
+        cpuScore = 0;
+        document.querySelector('#message').innerHTML = 'Lets Play';
+    }, 2500);
 }
 
 
@@ -234,19 +227,19 @@ function roundWinner() {
     if (hmnScore === cpuScore || (hmnScore > 20 && cpuScore > 20)) {
         return document.querySelector('#message').innerHTML = 'Draw';
     }
-        if ((hmnScore <= 20 && cpuScore <= 20) && (hmnScore > cpuScore)) {
-            hmnWins +=1;
-            hmnEleWins.innerHTML = hmnWins;
-            document.querySelector('#message').innerHTML = 'Player Wins';
-        } else if (cpuScore > 20 && hmnScore <= 20) {
-            hmnWins +=1;
-            hmnEleWins.innerHTML = hmnWins;
-            document.querySelector('#message').innerHTML = 'Player Wins';
-        }else {
-            cpuWins +=1;
-            cpuEleWins.innerHTML = cpuWins;
-            document.querySelector('#message').innerHTML = 'Cpu Wins';
-        }
+    if ((hmnScore <= 20 && cpuScore <= 20) && (hmnScore > cpuScore)) {
+        hmnWins += 1;
+        hmnEleWins.innerHTML = hmnWins;
+        document.querySelector('#message').innerHTML = 'Player Wins';
+    } else if (cpuScore > 20 && hmnScore <= 20) {
+        hmnWins += 1;
+        hmnEleWins.innerHTML = hmnWins;
+        document.querySelector('#message').innerHTML = 'Player Wins';
+    }else {
+        cpuWins += 1;
+        cpuEleWins.innerHTML = cpuWins;
+        document.querySelector('#message').innerHTML = 'Cpu Wins';
+    }
 }
 
 
