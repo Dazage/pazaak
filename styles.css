@@ -20,6 +20,22 @@ body {
     background-image: url('assets/background.gif');
     color: orange;
     font-size: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+h2, h3 {
+    transform:scale(2,1); 
+    -webkit-transform:scale(2,1);
+     
+}  
+
+.playTime {
+    transform:scale(2,1); 
+    -webkit-transform:scale(2,1);
+    display:inline-block; 
+}
+
+#hmnWins, #cpuWins {
+    font-size: 30px;
 }
 
 .container {
@@ -69,8 +85,13 @@ body {
 #hmnSideDeck, #cpuSideDeck {
     width: 200px;
     margin: 5px;
-    background-color: purple;
 
+}
+#hmnSideDeck0, #hmnSideDeck1, #hmnSideDeck2, #hmnSideDeck3 {
+    color: #B0FBFF;
+}
+#cpuSideDeck0, #cpuSideDeck1, #cpuSideDeck2, #cpuSideDeck3 {
+    color:  #FFCCFF;
 }
 
 .game-area div {
@@ -78,13 +99,13 @@ body {
     padding: 10px;
     flex: 1;
     text-align: center;
-    height: 300px;
+    height: 350px;
     display: block;
 
 }
 
 .game-area div img {
-    width: 40;
+    width: 75;
     padding: 5px;
 }
 
@@ -116,6 +137,7 @@ body {
     padding-top: 20px;
     width: 60px;
     padding: 5px;
+    padding-right: 20px;
     display: inline-block; 
 }
 
@@ -128,3 +150,51 @@ body {
     border: 1px solid orange;
     padding: 10px;
 }
+
+
+#hmnDrawBtn {
+    background-color: #B0FBFF; 
+    border: none;
+    color: black; 
+    border: 2px solid orange;
+    padding: 16px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+    font-weight: 700;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+
+  
+  #hmnDrawBtn:hover {
+    background-color: orange;
+  }
+
+  #hmnStandBtn {
+    background-color: #FFCCFF; 
+    border: none;
+    color: black; 
+    border: 2px solid orange;
+    padding: 16px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+    font-weight: 700;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+  }
+
+
+  
+  #hmnStandBtn:hover {
+    background-color: orange;
+  }
+
+  

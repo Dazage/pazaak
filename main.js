@@ -186,6 +186,16 @@ function showCard(player, card) {
     }
 }
 
+function disableSideCard(yourChoice){
+    document.getElementById(yourChoice.id).style.pointerEvents = 'none';
+}
+
+function activateSideCard() {
+    for (i = 0; i < 4; i++) {
+    document.getElementById('hmnSideDeck'+i).style.pointerEvents = 'auto';  
+    }
+}
+
 
 function endTurn() {
     if (cpuStanding == false) {
@@ -245,6 +255,8 @@ function delayResults() {
             dealerImages[i].remove();
         }
 
+        
+
         cpuStanding = false;
         hmnStanding = false;
         hmnDrawBtn.disabled = false;
@@ -255,6 +267,7 @@ function delayResults() {
         document.querySelector('#cpuCount').innerHTML = 0;
         cpuScore = 0;
         document.querySelector('#message').innerHTML = 'Lets Play';
+        document.querySelector('#message').style.color = 'orange';
     }, 2500);
 }
 
@@ -267,14 +280,17 @@ function roundWinner() {
         hmnWins += 1;
         hmnEleWins.innerHTML = hmnWins;
         document.querySelector('#message').innerHTML = 'Player Wins';
+        document.querySelector('#message').style.color = '#B0FBFF';
     } else if (cpuScore > 20 && hmnScore <= 20) {
         hmnWins += 1;
         hmnEleWins.innerHTML = hmnWins;
         document.querySelector('#message').innerHTML = 'Player Wins';
+        document.querySelector('#message').style.color = '#B0FBFF';
     } else {
         cpuWins += 1;
         cpuEleWins.innerHTML = cpuWins;
         document.querySelector('#message').innerHTML = 'Cpu Wins';
+        document.querySelector('#message').style.color = '#FFCCFF';
     }
     checkWinner();
 }
@@ -291,6 +307,9 @@ function resetGame() {
     humanSideDeck = new SideDeck();
     showSideDeck(0);
     showSideDeck(1);
+
+    activateSideCard();
+    console.log(activateSideCard());
 }
 
 function checkWinner() {
