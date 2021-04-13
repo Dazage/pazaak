@@ -16,8 +16,14 @@ body * {
 }
 */
 
+body {
+    background-image: url('assets/background.gif');
+    color: orange;
+    font-size: 20px;
+}
+
 .container {
-    border: 1px solid black;
+    border: 1px solid orange;
     width: 85%;
     margin: 0 auto;
     text-align: center;
@@ -26,14 +32,14 @@ body * {
 
 .wins {
     display: flex;
-    border: 1px solid black;
+    border: 1px solid orange;
     padding: 10px;
     justify-content: space-around;
 }
 
 .buttonRow {
     display: flex;
-    border: 1px solid black;
+    border: 1px solid orange;
     flex-wrap: wrap;
     flex-direction: row;
     justify-content: space-around;
@@ -41,19 +47,15 @@ body * {
 
 .game-area  {
     display: flex;
-    border: 1px solid black;
-    padding-top: 30px;
-    padding-left: 120px;
-    padding-right: 120px;
-    padding-bottom: 0px;
+    border: 1px solid orange;
     flex-wrap: wrap;
     flex-direction: row;
     justify-content: space-around;   
 }
 
-.card-area {
+.sideDeck {
     display: flex;
-    border: 1px solid black;
+    border: 1px solid orange;
     flex-wrap: wrap;
     flex-direction: row;
     justify-content: space-around;
@@ -64,7 +66,6 @@ body * {
  
 }
 
-
 #hmnSideDeck, #cpuSideDeck {
     width: 200px;
     margin: 5px;
@@ -72,9 +73,8 @@ body * {
 
 }
 
-
 .game-area div {
-    border: 1px solid black;
+    border: 1px solid orange;
     padding: 10px;
     flex: 1;
     text-align: center;
@@ -82,33 +82,49 @@ body * {
     display: block;
 
 }
-.card-area div {
-    border: 1px solid black;
-    padding: 10px;
-    flex: 1;
-    text-align: center;
-    height: 100px;
-    font-weight: 700;
-}
-
 
 .game-area div img {
     width: 40;
     padding: 5px;
 }
-.card-area div img {
+
+.hmnSideDeck div {
+    border: 1px solid orange;
+    padding: 10px;
+    flex: 1;
+    text-align: center;
+    height: 100px;
+    min-width: 80px;
+    font-weight: 700;
+    display:inline-block;
+    background-color: #B0FBFF;
+}
+
+.cpuSideDeck div {
+    border: 1px solid orange;
+    padding: 10px;
+    flex: 1;
+    text-align: center;
+    height: 100px;
+    min-width: 80px;
+    font-weight: 700;
+    display:inline-block;
+    background-color: #FFCCFF;
+}
+
+.SideDeck div img {
+    padding-top: 20px;
     width: 60px;
     padding: 5px;
-    display: block;
-  
+    display: inline-block; 
 }
 
 .buttonRow {
-    border: 1px solid black;
+    border: 1px solid orange;
     padding: 10px;
 }
 
 .buttonRow div {
-    border: 1px solid black;
+    border: 1px solid orange;
     padding: 10px;
 }

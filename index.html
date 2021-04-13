@@ -26,18 +26,22 @@
                 <h2 id="cpuCount">0</h2>
             </div>
         </div>
-        <div class="card-area">   
-            <div id="hmnSideDeck0" onclick="dealHumanSide(this)">0</div>
-            <div id="hmnSideDeck1" onclick="dealHumanSide(this)">0</div>
-            <div id="hmnSideDeck2" onclick="dealHumanSide(this)">0</div>
-            <div id="hmnSideDeck3" onclick="dealHumanSide(this)">0</div>
-
-            <div id="cpuSideDeck0" onclick="dealCpuSide(this)">0</div>
-            <div id="cpuSideDeck1" onclick="dealCpuSide(this)">0</div>
-            <div id="cpuSideDeck2" onclick="dealCpuSide(this)">0</div>
-            <div id="cpuSideDeck3" onclick="dealCpuSide(this)">0</div>
-
+        <div class="sideDeck">
+            <div class="hmnSideDeck">   
+                <div id="hmnSideDeck0" onclick="playHumanSideCard(this)"></div>
+                <div id="hmnSideDeck1" onclick="playHumanSideCard(this)"></div>
+                <div id="hmnSideDeck2" onclick="playHumanSideCard(this)"></div> 
+                <div id="hmnSideDeck3" onclick="playHumanSideCard(this)"></div>
+            </div>
+            
+            <div class="cpuSideDeck">   
+                <div id="cpuSideDeck0" onclick="playCpuSideCard(this)"></div>
+                <div id="cpuSideDeck1" onclick="playCpuSideCard(this)"></div>
+                <div id="cpuSideDeck2" onclick="playCpuSideCard(this)"></div>
+                <div id="cpuSideDeck3" onclick="playCpuSideCard(this)"></div>
+            </div>
         </div>
+
 
         <div class="buttonRow">
             <button id="hmnDrawBtn" onclick="endTurn()">End turn</button>

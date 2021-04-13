@@ -74,8 +74,9 @@ d = new MainDeck();
 
 cpuSideDeck = new SideDeck();
 humanSideDeck = new SideDeck();
-showHumanSideDeck();
-showCpuSideDeck();
+showSideDeck(0);
+showSideDeck(1);
+
 
 function dealCard(player) {
     switch(player) {
@@ -95,47 +96,72 @@ function dealCard(player) {
     }
 }
 
-function showHumanSideDeck() {
-    counter = 0;
-    for (i = 0; i < 4; i++) {
-        card = (humanSideDeck.cardsInDeck[i]); 
-        let cardImage = document.createElement('img');
-        //cardImage.id = `hmn${card}`;
-        cardImage.src = `./assets/cards/B${card}.png`;
-
-        document.querySelector(`#hmnSideDeck${i}`).innerHTML = card;
-        document.querySelector(`#hmnSideDeck${i}`).appendChild(cardImage);
+/*
+    Assign an image to the numerical value of the card in the side 
+    deck, then and add it to the HTML.
+*/
+function showSideDeck(player) {
+    switch(player) {
+        case 0:
+            for (i = 0; i < 4; i++) {
+                card = (humanSideDeck.cardsInDeck[i]); 
+                let cardImage = document.createElement('img');
+                cardImage.src = `./assets/cards/B${card}.png`;
+        
+                document.querySelector(`#hmnSideDeck${i}`).innerHTML = card;
+                document.querySelector(`#hmnSideDeck${i}`).appendChild(cardImage);
+            }
+        break;
+        case 1:
+            for (i = 0; i < 4; i++) {
+                card = (cpuSideDeck.cardsInDeck[i]);  
+                let cardImage = document.createElement('img');
+                cardImage.src = `./assets/cards/back.png`;
+        
+                document.querySelector(`#cpuSideDeck${i}`).innerHTML = card;
+                document.querySelector(`#cpuSideDeck${i}`).appendChild(cardImage); 
+            }
+        break;
     }
 }
 
-function showCpuSideDeck() {
-    cardnr = 0;
-    for (i = 0; i < 4; i++) {
-        card = (cpuSideDeck.cardsInDeck[i]);  
-        let cardImage = document.createElement('img');
-        //cardImage.id = `cpu${card}`;
-        cardImage.src = `./assets/cards/back.png`;
+function dealSideDeck() {
+    switch(player) {
+        case 0:
 
-        document.querySelector(`#cpuSideDeck${i}`).innerHTML = card;
-        document.querySelector(`#cpuSideDeck${i}`).appendChild(cardImage); 
+            break;
+        case 1:
+            
+            break;
     }
 }
 
-function dealHumanSide(yourChoice) {
+function playHumanSideCard(yourChoice) {
+
+    // calculate value of player score based on sideDeck card used
     valueSideCard = parseInt(yourChoice.innerHTML);
-    hmnScore += parseInt(yourChoice.innerHTML);
+    hmnScore += valueSideCard;
     hmnElement.innerHTML = hmnScore;
+
+    // place card in play area
     let cardImage = document.createElement('img');
     cardImage.src = `./assets/cards/B${valueSideCard}.png`;
     document.querySelector('#human-game').appendChild(cardImage);
+
+    // disable card from being played again TODO
+    var foobar = document.getElementById(yourChoice.id);
+    foobar.disabled = true;
+    console.log(foobar);
+
     // núllstilla
     var back = document.getElementById(yourChoice.id);
-    back.innerHTML= "<img src=./assets/cards/back.png>";
+    back.innerHTML = "";
+//    back.innerHTML= "<img src=./assets/cards/back.png>";
 }
 
-function dealCpuSide(yourChoice) {
+function playCpuSideCard(yourChoice) {
     valueSideCard = parseInt(yourChoice.innerHTML);
-    cpuScore += parseInt(yourChoice.innerHTML);
+    cpuScore += valueSideCard;
     cpuElement.innerHTML = cpuScore;
     let cardImage = document.createElement('img');
     cardImage.src = `./assets/cards/B${valueSideCard}.png`;
@@ -167,7 +193,7 @@ function endTurn() {
         dealCard(1);
     } else {
         dealCard(0);
-    } 
+    }
     //if ((hmnScore <= 20 && hmnScore > cpuScore) || (hmnScore <=20 && hmnScore > cpuScore)) {
     if (cpuScore >= 15 && cpuScore > hmnScore) {
         cpuStanding = true;
@@ -175,19 +201,28 @@ function endTurn() {
     }
 }
 
-function stand() {
+function stand() {    
+    hmnStanding = true;     // human stands
+    var breakLoop = false;  // this is needed because i cba figuring out why this doesn't work
+
+    /*
+        God-like AI. Stand on 15 and always try to draw or go over player score.
+    */
     if (cpuStanding == false) {
         hmnDrawBtn.disabled = true;
         hmnStandBtn.disabled = true;
-        while ((cpuScore <= 15 && hmnScore <=20) || (hmnScore <=20 && hmnScore > cpuScore)) {
+        do {
             dealCard(1);
-        }
+            if (hmnStanding == true && hmnScore <= cpuScore) {
+                breakLoop = true;
+            }
+        } while ((cpuScore <= 15 && hmnScore <=20 && breakLoop == false) || (hmnScore <=20 && hmnScore > cpuScore && breakLoop == false));
     }
+
     cpuStanding = true;
     console.log('cpuStanding' + cpuStanding);
     delayResults();
     roundWinner();
-    cpuStanding = false;
 
     d = new MainDeck();
 }
@@ -209,9 +244,12 @@ function delayResults() {
         for (i = 0; i < dealerImages.length; i++) {
             dealerImages[i].remove();
         }
-        
+
+        cpuStanding = false;
+        hmnStanding = false;
         hmnDrawBtn.disabled = false;
         hmnStandBtn.disabled = false;
+
         document.querySelector('#humanCount').innerHTML = 0;
         hmnScore = 0;
         document.querySelector('#cpuCount').innerHTML = 0;
@@ -233,9 +271,35 @@ function roundWinner() {
         hmnWins += 1;
         hmnEleWins.innerHTML = hmnWins;
         document.querySelector('#message').innerHTML = 'Player Wins';
-    }else {
+    } else {
         cpuWins += 1;
         cpuEleWins.innerHTML = cpuWins;
         document.querySelector('#message').innerHTML = 'Cpu Wins';
+    }
+    checkWinner();
+}
+
+function resetGame() {
+    hmnWins = 0;
+    hmnEleWins.innerHTML = hmnWins;
+    cpuWins = 0;
+    cpuEleWins.innerHTML = cpuWins;
+
+    d = new MainDeck();
+
+    cpuSideDeck = new SideDeck();
+    humanSideDeck = new SideDeck();
+    showSideDeck(0);
+    showSideDeck(1);
+}
+
+function checkWinner() {
+    if (hmnWins >= 3) {
+        alert('human wins!');
+        resetGame();
+    } else if (cpuWins >= 3) {
+        alert('cpu wins!');
+        resetGame();
+    } else {
     }
 }
