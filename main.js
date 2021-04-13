@@ -80,8 +80,13 @@ showCpuSideDeck();
 function dealCard(player) {
     switch(player) {
     case 0: // when human
-        hmnScore += d.drawFromDeck(0);
-        hmnElement.innerHTML = hmnScore;
+        if (hmnScore > 20) {
+            alert('you busted!');
+            stand();
+        } else {
+            hmnScore += d.drawFromDeck(0);
+            hmnElement.innerHTML = hmnScore;
+        }
         break;
     case 1: // when cpu
         cpuScore += d.drawFromDeck(1);
@@ -109,7 +114,7 @@ function showCpuSideDeck() {
         card = (cpuSideDeck.cardsInDeck[i]);  
         let cardImage = document.createElement('img');
         //cardImage.id = `cpu${card}`;
-        cardImage.src = `./assets/cards/B${card}.png`;
+        cardImage.src = `./assets/cards/back.png`;
 
         document.querySelector(`#cpuSideDeck${i}`).innerHTML = card;
         document.querySelector(`#cpuSideDeck${i}`).appendChild(cardImage); 
