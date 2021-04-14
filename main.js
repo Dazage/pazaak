@@ -7,11 +7,18 @@ var cpuWins = 0;
 var hmnEleWins = document.getElementById("hmnWins");
 var cpuEleWins = document.getElementById("cpuWins");
 
+var statusElement = document.querySelector('#message');
+var hmnGameEle = document.querySelector('#human-game');
+var cpuGameEle = document.querySelector('#cpu-game');
+
 hmnDrawBtn = document.getElementById("hmnDrawBtn");
 hmnStandBtn = document.getElementById("hmnStandBtn");
 
 let hmnStanding = false;
 let cpuStanding = false;
+
+var backgroundMusic = new Audio('./assets/audio/pazaak.mp3');
+var drawSound = new Audio('./assets/audio/deal_card_slide.mp3');
 
 class MainDeck {
     constructor() {
@@ -34,8 +41,7 @@ class MainDeck {
         }
     }
     drawFromDeck(player) {
-	// play a sound when a card is being delt
-        var drawSound = new Audio('./assets/audio/deal_card_slide.mp3');
+	    // play a sound when a card is being delt
         drawSound.play();
 
         let card = this.deck.pop();
@@ -77,12 +83,10 @@ humanSideDeck = new SideDeck();
 showSideDeck(0);
 showSideDeck(1);
 
-
 function dealCard(player) {
     switch(player) {
     case 0: // when human
         if (hmnScore > 20) {
-            alert('you busted!');
             stand();
         } else {
             hmnScore += d.drawFromDeck(0);
@@ -125,19 +129,7 @@ function showSideDeck(player) {
     }
 }
 
-function dealSideDeck() {
-    switch(player) {
-        case 0:
-
-            break;
-        case 1:
-            
-            break;
-    }
-}
-
 function playHumanSideCard(yourChoice) {
-
     // calculate value of player score based on sideDeck card used
     valueSideCard = parseInt(yourChoice.innerHTML);
     hmnScore += valueSideCard;
@@ -146,12 +138,7 @@ function playHumanSideCard(yourChoice) {
     // place card in play area
     let cardImage = document.createElement('img');
     cardImage.src = `./assets/cards/B${valueSideCard}.png`;
-    document.querySelector('#human-game').appendChild(cardImage);
-
-    // disable card from being played again TODO
-    var foobar = document.getElementById(yourChoice.id);
-    foobar.disabled = true;
-    console.log(foobar);
+    hmnGameEle.appendChild(cardImage);
 
     // núllstilla
     var back = document.getElementById(yourChoice.id);
@@ -160,12 +147,16 @@ function playHumanSideCard(yourChoice) {
 }
 
 function playCpuSideCard(yourChoice) {
+    // calculate value of player score based on sideDeck card used
     valueSideCard = parseInt(yourChoice.innerHTML);
     cpuScore += valueSideCard;
     cpuElement.innerHTML = cpuScore;
+    
+    // place card in play area
     let cardImage = document.createElement('img');
     cardImage.src = `./assets/cards/B${valueSideCard}.png`;
-    document.querySelector('#cpu-game').appendChild(cardImage);
+    cpuGameEle.appendChild(cardImage);
+
     // núllstilla
     var back = document.getElementById(yourChoice.id);
     back.innerHTML= "<img src=./assets/cards/back.png>";
@@ -175,13 +166,12 @@ function playCpuSideCard(yourChoice) {
 function showCard(player, card) {
     let cardImage = document.createElement('img');
     cardImage.src = `./assets/cards/G${card}.png`;
-
     switch(player) {
         case 0:
-            document.querySelector('#human-game').appendChild(cardImage);	
+            hmnGameEle.appendChild(cardImage);	
             break;
         case 1:
-            document.querySelector('#cpu-game').appendChild(cardImage);	
+            cpuGameEle.appendChild(cardImage);	
             break;
     }
 }
@@ -192,7 +182,7 @@ function disableSideCard(yourChoice){
 
 function activateSideCard() {
     for (i = 0; i < 4; i++) {
-    document.getElementById('hmnSideDeck'+i).style.pointerEvents = 'auto';  
+        document.getElementById('hmnSideDeck'+i).style.pointerEvents = 'auto';  
     }
 }
 
@@ -201,14 +191,24 @@ function endTurn() {
     if (cpuStanding == false) {
         dealCard(0);
         dealCard(1);
+    } else if (cpuScore > 20) {
+        stand();
     } else {
-        dealCard(0);
+        dealCard(0); 
     }
     //if ((hmnScore <= 20 && hmnScore > cpuScore) || (hmnScore <=20 && hmnScore > cpuScore)) {
     if (cpuScore >= 15 && cpuScore > hmnScore) {
         cpuStanding = true;
         console.log('cpuStanding' + cpuStanding);
+    } else if (cpuScore > 20) {
+        cpuStanding = true;
+        stand();
     }
+    hmnDrawBtn.innerHTML = 'End turn';
+
+    // Play some nice ambient music
+    backgroundMusic.pause();
+    backgroundMusic.play();
 }
 
 function stand() {    
@@ -241,12 +241,12 @@ function stand() {
 function delayResults() {
     setTimeout(function() {
         /*
-            document.querySelector('#human-game').innerHTML = '<h2 id="humanCount">0</h2>';
-            document.querySelector('#cpu-game').innerHTML = '<h2 id="cpuCount">0</h2>';
+            hmnGameEle.innerHTML = '<h2 id="humanCount">0</h2>';
+            cpuGameEle.innerHTML = '<h2 id="cpuCount">0</h2>';
         */ 
 
-        let yourImages = document.querySelector('#human-game').querySelectorAll('img');
-        let dealerImages = document.querySelector('#cpu-game').querySelectorAll('img');
+        let yourImages = hmnGameEle.querySelectorAll('img');
+        let dealerImages = cpuGameEle.querySelectorAll('img');
 
         for (i = 0; i < yourImages.length; i++) {
             yourImages[i].remove();
@@ -254,8 +254,6 @@ function delayResults() {
         for (i = 0; i < dealerImages.length; i++) {
             dealerImages[i].remove();
         }
-
-        
 
         cpuStanding = false;
         hmnStanding = false;
@@ -266,31 +264,40 @@ function delayResults() {
         hmnScore = 0;
         document.querySelector('#cpuCount').innerHTML = 0;
         cpuScore = 0;
-        document.querySelector('#message').innerHTML = 'Lets Play';
-        document.querySelector('#message').style.color = 'orange';
+        statusElement.innerHTML = 'Lets Play';
+        statusElement.style.color = 'orange';
     }, 2500);
 }
 
 
 function roundWinner() {
-    if (hmnScore === cpuScore || (hmnScore > 20 && cpuScore > 20)) {
-        return document.querySelector('#message').innerHTML = 'Draw';
-    }
-    if ((hmnScore <= 20 && cpuScore <= 20) && (hmnScore > cpuScore)) {
+    if (hmnScore === cpuScore) {
+        return statusElement.innerHTML = 'Draw';
+    } else if (hmnScore > 20) {
+        cpuWins += 1;
+        cpuEleWins.innerHTML = cpuWins;
+        statusElement.innerHTML = 'Player busts!';
+        statusElement.style.color = '#B0FBFF';
+    } else if (cpuScore > 20) {
         hmnWins += 1;
         hmnEleWins.innerHTML = hmnWins;
-        document.querySelector('#message').innerHTML = 'Player Wins';
-        document.querySelector('#message').style.color = '#B0FBFF';
+        statusElement.innerHTML = 'Computer busts!';
+        statusElement.style.color = '#FFCCFF';
+    } else if ((hmnScore <= 20 && cpuScore <= 20) && (hmnScore > cpuScore)) {
+        hmnWins += 1;
+        hmnEleWins.innerHTML = hmnWins;
+        statusElement.innerHTML = 'Player Wins';
+        statusElement.style.color = '#B0FBFF';
     } else if (cpuScore > 20 && hmnScore <= 20) {
         hmnWins += 1;
         hmnEleWins.innerHTML = hmnWins;
-        document.querySelector('#message').innerHTML = 'Player Wins';
-        document.querySelector('#message').style.color = '#B0FBFF';
+        statusElement.innerHTML = 'Player Wins';
+        statusElement.style.color = '#B0FBFF';
     } else {
         cpuWins += 1;
         cpuEleWins.innerHTML = cpuWins;
-        document.querySelector('#message').innerHTML = 'Cpu Wins';
-        document.querySelector('#message').style.color = '#FFCCFF';
+        statusElement.innerHTML = 'Computer Wins';
+        statusElement.style.color = '#FFCCFF';
     }
     checkWinner();
 }
@@ -300,6 +307,7 @@ function resetGame() {
     hmnEleWins.innerHTML = hmnWins;
     cpuWins = 0;
     cpuEleWins.innerHTML = cpuWins;
+    hmnDrawBtn.innerHTML = 'Start playing';
 
     d = new MainDeck();
 
@@ -310,14 +318,29 @@ function resetGame() {
 
     activateSideCard();
     console.log(activateSideCard());
+
+    // new tunes
+    backgroundMusic = new Audio('./assets/audio/pazaak.mp3');
 }
 
 function checkWinner() {
     if (hmnWins >= 3) {
-        alert('human wins!');
+        
+        backgroundMusic.pause();
+        backgroundMusic = new Audio('./assets/audio/congrats.mp3');
+        backgroundMusic.play();
+
+        statusElement.innerHTML = 'You have won the game! Congratulations!!!';
+        
         resetGame();
     } else if (cpuWins >= 3) {
-        alert('cpu wins!');
+
+        backgroundMusic.pause();
+        backgroundMusic = new Audio('./assets/audio/defeat.mp3');
+        backgroundMusic.play();
+
+        statusElement.innerHTML = 'The oppression of Sith will never return. You have lost!';
+
         resetGame();
     } else {
     }
