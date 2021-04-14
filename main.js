@@ -277,12 +277,12 @@ function roundWinner() {
         cpuWins += 1;
         cpuEleWins.innerHTML = cpuWins;
         statusElement.innerHTML = 'Player busts!';
-        statusElement.style.color = '#B0FBFF';
+        statusElement.style.color = '#FFCCFF';
     } else if (cpuScore > 20) {
         hmnWins += 1;
         hmnEleWins.innerHTML = hmnWins;
         statusElement.innerHTML = 'Computer busts!';
-        statusElement.style.color = '#FFCCFF';
+        statusElement.style.color = '#B0FBFF';
     } else if ((hmnScore <= 20 && cpuScore <= 20) && (hmnScore > cpuScore)) {
         hmnWins += 1;
         hmnEleWins.innerHTML = hmnWins;
@@ -331,6 +331,7 @@ function checkWinner() {
         backgroundMusic.play();
 
         statusElement.innerHTML = 'You have won the game! Congratulations!!!';
+        statusElement.style.color = '#B0FBFF';
         
         resetGame();
     } else if (cpuWins >= 3) {
@@ -340,6 +341,7 @@ function checkWinner() {
         backgroundMusic.play();
 
         statusElement.innerHTML = 'The oppression of Sith will never return. You have lost!';
+        statusElement.style.color = '#FFCCFF';
 
         resetGame();
     } else {
